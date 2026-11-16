@@ -1246,102 +1246,87 @@ a.contact-value[href^="https://wa.me"] {
 }
 
 /* ============ Бағалар ============ */
-.plans {
+.price-card {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   margin-top: 56px;
-}
-
-.plan {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 32px 28px 28px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.plan-featured {
-  padding: 31px 27px 27px;
   border: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
   box-shadow: var(--shadow-card);
+  overflow: hidden;
 }
 
-.plan-badge {
-  position: absolute;
-  top: 0;
-  left: 26px;
-  transform: translateY(-50%);
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font: 600 0.75rem / 1 var(--font-mono);
-  letter-spacing: 0.06em;
+.price-main,
+.price-factors {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  min-width: 0;
+  padding: clamp(24px, 4vw, 44px);
+}
+
+.price-main {
+  justify-items: start;
+}
+
+.price-label {
+  color: var(--accent-ink);
+  font: 500 var(--fs-xs) / 1.3 var(--font-mono);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.plan-head {
-  display: grid;
-  gap: 4px;
-}
-
-.plan-name {
-  font: 800 1.875rem / 1.05 var(--font-display);
-  letter-spacing: 0.01em;
-}
-
-.plan-for {
-  color: var(--muted);
-  font-size: var(--fs-sm);
-}
-
-.plan-price {
+.price-range {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 4px 10px;
-  padding-block: 18px;
-  border-block: 1px solid var(--line);
+  gap: 4px 14px;
 }
 
 .amount {
-  font: 600 2.25rem / 1 var(--font-mono);
+  font: 600 clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem) / 1 var(--font-mono);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-.unit {
+.range-sep {
   color: var(--muted);
-  font-size: var(--fs-sm);
+  font: 400 clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem) / 1 var(--font-mono);
+}
+
+.price-sub {
+  max-width: 32em;
+  color: var(--muted);
+}
+
+.price-main .btn {
+  margin-top: 8px;
+}
+
+.price-factors {
+  border-left: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .plan-features {
   display: grid;
-  gap: 10px;
+  gap: 14px;
 }
 
 .plan-features li {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
   align-items: start;
-  font-size: var(--fs-sm);
 }
 
 .plan-features .icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   margin-top: 2px;
   color: var(--accent-ink);
-}
-
-.plan .btn {
-  margin-top: auto;
 }
 
 .plans-note {
@@ -1356,11 +1341,14 @@ a.contact-value[href^="https://wa.me"] {
   font-weight: 600;
 }
 
-@media (max-width: 959px) {
-  .plans {
+@media (max-width: 859px) {
+  .price-card {
     grid-template-columns: minmax(0, 1fr);
-    max-width: 560px;
-    gap: 28px;
+  }
+
+  .price-factors {
+    border-left: 0;
+    border-top: 1px solid var(--line);
   }
 }
 
