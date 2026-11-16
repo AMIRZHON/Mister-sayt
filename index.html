@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mister — кафелерге тауар жеткізу</title>
+  <meta name="description" content="Mister — кафелер мен мейрамханаларға азық-түлік, сусын, бір реттік ыдыс және шаруашылық тауарларын жеткізу. Кешке тапсырыс беріңіз — таңертең бәрі кафеңізде.">
+  <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1019" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="kk_KZ">
+  <meta property="og:site_name" content="Mister">
+  <meta property="og:title" content="Mister — кафелерге тауар жеткізу">
+  <meta property="og:description" content="Кешке тапсырыс беріңіз — таңертең бәрі кафеңізде. Таңғы, тұрақты және шұғыл жеткізу.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@800&family=IBM+Plex+Mono:wght@400;500;600&family=Onest:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    /* Таңдалған режимді (күндізгі/түнгі) бет көрінбей тұрып қолданамыз */
+    try {
+      var savedTheme = localStorage.getItem('mister-theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') document.documentElement.setAttribute('data-theme', savedTheme);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Негізгі мазмұнға өту</a>
+
+  <!-- Иконкалар жинағы: беттің басқа жерлерінде <use href="#i-..."> арқылы қолданылады -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-sunrise" viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 0-10 0"/><path d="M12 2v7"/><path d="m4.22 10.22 1.42 1.42"/><path d="M1 18h2"/><path d="M21 18h2"/><path d="m18.36 11.64 1.42-1.42"/><path d="M23 22H1"/><path d="m8 6 4-4 4 4"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></symbol>
+    <symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5V4M12 20v2.5M4.22 4.22l1.77 1.77M18.01 18.01l1.77 1.77M1.5 12H4M20 12h2.5M4.22 19.78l1.77-1.77M18.01 5.99l1.77-1.77"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  </svg>
+
+  <!-- ============ ЖОҒАРҒЫ МӘЗІР ============ -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#home" aria-label="Mister — басты бет">
+        <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+          <rect class="brand-mark-bg" width="36" height="36" rx="9"/>
+          <path class="brand-mark-m" d="M10 25V12l8 8 8-8v13"/>
+          <circle class="brand-mark-dot" cx="10" cy="25" r="2.6"/>
+          <circle class="brand-mark-dot" cx="26" cy="25" r="2.6"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">Mister</span>
+          <span class="brand-tag">кафелерге жеткізу</span>
+        </span>
+      </a>
+
+      <nav class="nav" id="site-nav" aria-label="Негізгі мәзір">
+        <a href="#home">Басты бет</a>
+        <a href="#services">Қызметтер</a>
+        <a href="#prices">Бағалар</a>
+        <a href="#about">Біз туралы</a>
+        <a href="#contacts">Байланыс</a>
+        <a class="btn btn-primary nav-cta" href="#contacts">Өтінім қалдыру</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="header-phone" href="tel:+77000000000">+7 700 000 00 00</a>
+        <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Түнгі режимге ауысу" title="Түнгі режимге ауысу">
+          <svg class="icon i-moon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg>
+          <svg class="icon i-sun" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg>
+        </button>
+        <a class="btn btn-primary header-cta" href="#contacts">Өтінім қалдыру</a>
+        <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-controls="site-nav" aria-expanded="false" aria-label="Мәзірді ашу">
+          <svg class="icon i-menu" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
+          <svg class="icon i-close" aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ БАСТЫ БЕТ ============ -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="status-pill" data-open-status>
+            <span class="status-dot" aria-hidden="true"></span>
+            <span data-open-text>Тапсырыс қабылдау: <span class="nowrap">08:00–22:00</span></span>
+          </p>
+          <h1 id="hero-title">Кешке тапсырыс&nbsp;— <span class="hl">таңертең</span> кафеңізде</h1>
+          <p class="lead">Mister&nbsp;— кафелер мен мейрамханаларға азық-түлік, сусын, бір реттік ыдыс және шаруашылық тауарларын жеткізу қызметі. <span class="nowrap">22:00-ге</span> дейін берілген тапсырысты ертеңіне кафеңіз ашылғанға дейін әкелеміз.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#contacts">Өтінім қалдыру <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-ghost btn-lg" href="#prices">Бағаларды көру</a>
+          </div>
+          <ul class="hero-points">
+            <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-sunrise"/></svg><span>Таңғы жеткізу <span class="nowrap">06:00–10:00</span></span></li>
+            <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-thermo"/></svg><span>Тоңазытқышы бар көліктер</span></li>
+            <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-file"/></svg><span>Шарт және ЭШФ</span></li>
+          </ul>
+        </div>
+
+        <!-- Мысал: таңғы маршрут пен жүкқұжат -->
+        <figure class="route-card">
+          <figcaption class="route-head">
+            <span class="route-title">Бүгінгі маршрут</span>
+            <span>3&nbsp;кафе · 18&nbsp;км</span>
+          </figcaption>
+          <div class="route-map">
+            <svg class="route-svg" viewBox="0 0 400 220" aria-hidden="true" focusable="false">
+              <path class="route-road" d="M40 190 C85 186 110 142 150 135 S220 104 260 95 S330 66 360 40"/>
+              <path class="route-line" id="route-path" d="M40 190 C85 186 110 142 150 135 S220 104 260 95 S330 66 360 40"/>
+              <rect class="pin-depot" x="32" y="182" width="16" height="16" rx="4"/>
+              <circle class="pin-stop" cx="150" cy="135" r="6.5"/>
+              <circle class="pin-stop" cx="260" cy="95" r="6.5"/>
+              <circle class="pin-goal-ring" cx="360" cy="40" r="15"/>
+              <circle class="pin-goal" cx="360" cy="40" r="9"/>
+              <g class="van van-moving">
+                <circle r="7"/>
+                <animateMotion dur="2.8s" begin="0s" fill="freeze" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines="0.45 0 0.25 1">
+                  <mpath href="#route-path"/>
+                </animateMotion>
+              </g>
+              <circle class="van van-static" cx="360" cy="40" r="7"/>
+            </svg>
+            <span class="map-label map-label--depot">Қойма · 05:50</span>
+            <span class="map-label map-label--up">06:40</span>
+            <span class="map-label map-label--down">07:05</span>
+            <span class="map-label map-label--goal">07:32 · сіздің кафе</span>
+          </div>
+
+          <div class="waybill">
+            <div class="waybill-head">
+              <div>
+                <p class="waybill-title">Жүкқұжат</p>
+                <p class="waybill-no">№ 0427</p>
+              </div>
+              <span class="stamp">Уақытында</span>
+            </div>
+            <div class="waybill-chips">
+              <span class="chip-sm"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span class="nowrap">07:00–08:00</span></span>
+              <span class="chip-sm"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-thermo"/></svg>+4&nbsp;°C</span>
+            </div>
+            <table class="waybill-items">
+              <caption class="sr-only">Тапсырыс құрамы</caption>
+              <tbody>
+                <tr><th scope="row">Сүт 3,2%</th><td>12&nbsp;л</td></tr>
+                <tr><th scope="row">Кофе дәні</th><td>5&nbsp;кг</td></tr>
+                <tr><th scope="row">Стақан 300&nbsp;мл</th><td>500&nbsp;дана</td></tr>
+              </tbody>
+            </table>
+            <ol class="waybill-steps">
+              <li><span>Қабылданды</span><span class="t">21:40</span></li>
+              <li><span>Жиналды</span><span class="t">05:50</span></li>
+              <li><span>Жолда</span><span class="t">06:45</span></li>
+              <li><span>Жеткізілді</span><span class="t">07:32</span></li>
+            </ol>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ ҚЫЗМЕТТЕР ============ -->
+    <section class="section" id="services" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Қызметтер</p>
+            <h2 id="services-title">Таңғы жеткізуден бастап шұғыл рейске дейін</h2>
+          </div>
+          <p class="section-intro">Кафеңіздің жұмыс тәртібіне қарай форматты таңдаңыз. Бірнеше форматты біріктіруге де болады.</p>
+        </div>
+
+        <ul class="services">
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-sunrise"/></svg></span>
+            <h3>Таңғы жеткізу</h3>
+            <p>Кешке <span class="nowrap">22:00-ге</span> дейін тапсырыс беріңіз&nbsp;— ертеңіне <span class="nowrap">06:00–10:00</span>&nbsp;аралығында, кафе ашылғанға дейін жеткіземіз.</p>
+          </li>
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-calendar"/></svg></span>
+            <h3>Кесте бойынша жеткізу</h3>
+            <p>Апталық кесте құрамыз да, тұрақты тауарларды өзіміз әкеліп тұрамыз. Әр жолы тапсырыс берудің қажеті жоқ.</p>
+          </li>
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-zap"/></svg></span>
+            <h3>Шұғыл жеткізу</h3>
+            <p>Сүт не стақан таусылып қалса, қала ішінде 2&nbsp;сағат ішінде жеткіземіз.</p>
+          </li>
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cart"/></svg></span>
+            <h3>Сатып алып жеткізу</h3>
+            <p>Тізіміңізді жіберіңіз: көтерме базарлар мен жеткізушілерден өзіміз алып, бір рейспен әкелеміз.</p>
+          </li>
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-thermo"/></svg></span>
+            <h3>Салқын тізбек</h3>
+            <p>Ет, сүт және мұздатылған өнімдер <span class="nowrap">+2…+6&nbsp;°C</span> және −18&nbsp;°C температурада тасымалданады.</p>
+          </li>
+          <li class="service">
+            <span class="service-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-file"/></svg></span>
+            <h3>Құжаттар мен есеп</h3>
+            <p>Әр жеткізуге жүкқұжат, электрондық шот-фактура (ЭШФ) және ай сайынғы салыстыру актісі.</p>
+          </li>
+        </ul>
+
+        <div class="assortment">
+          <h3 class="assortment-title">Не жеткіземіз</h3>
+          <ul class="chips">
+            <li>Ет және құс</li>
+            <li>Сүт өнімдері</li>
+            <li>Жеміс-көкөніс</li>
+            <li>Нан және тоқаш</li>
+            <li>Кофе, шай, сироп</li>
+            <li>Сусын және су</li>
+            <li>Бір реттік ыдыс</li>
+            <li>Қаптама</li>
+            <li>Тұрмыстық химия</li>
+            <li>Майлық пен қолғап</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ЖҰМЫС ТӘРТІБІ ============ -->
+    <section class="section band" id="process" aria-labelledby="process-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Жұмыс тәртібі</p>
+            <h2 id="process-title">Тапсырыстан қоймаңызға дейін&nbsp;— төрт қадам</h2>
+          </div>
+          <p class="section-intro">Тауар жолға шыққанда және жеткенде хабарлаймыз&nbsp;— әр кезеңде оның қайда екенін білесіз.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <span class="step-no">01</span>
+            <div class="step-body">
+              <h3>Тапсырыс</h3>
+              <p>WhatsApp, телефон немесе сайттағы форма арқылы <span class="nowrap">22:00-ге</span> дейін тапсырыс беріңіз.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">02</span>
+            <div class="step-body">
+              <h3>Жинау және тексеру</h3>
+              <p>Таңертең тауарды жинап, сапасы мен жарамдылық мерзімін тексереміз.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">03</span>
+            <div class="step-body">
+              <h3>Жеткізу</h3>
+              <p>Келісілген уақыт аралығында жеткізіп, жүкті қоймаңызға дейін көтеріп береміз.</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">04</span>
+            <div class="step-body">
+              <h3>Қабылдау және төлем</h3>
+              <p>Тауарды жүкқұжат бойынша бірге тексересіз. Төлем&nbsp;— Kaspi, карта немесе шот арқылы.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ БАҒАЛАР ============ -->
+    <section class="section" id="prices" aria-labelledby="prices-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Бағалар</p>
+            <h2 id="prices-title">Жеткізу құны алдын ала белгілі</h2>
+          </div>
+          <p class="section-intro">Тауардың өзі прайс-парақ бойынша есептеледі. Төменде&nbsp;— қала ішіндегі бір мекенжайға жеткізу құны.</p>
+        </div>
+
+        <div class="plans">
+          <article class="plan">
+            <div class="plan-head">
+              <h3 class="plan-name">Бір реттік</h3>
+              <p class="plan-for">Анда-санда тапсырыс беретін кафелерге</p>
+            </div>
+            <p class="plan-price"><span class="amount">2&nbsp;000&nbsp;₸</span><span class="unit">/ жеткізу</span></p>
+            <ul class="plan-features">
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Ертеңгі таңға жеткізу</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Уақыт аралығы&nbsp;— 2&nbsp;сағат</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Ең аз тапсырыс&nbsp;— 15&nbsp;000&nbsp;₸</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Қоймаға дейін көтеріп беру</span></li>
+            </ul>
+            <a class="btn btn-ghost" href="#contacts" data-service="Бір реттік жеткізу">Таңдау</a>
+          </article>
+
+          <article class="plan plan-featured">
+            <p class="plan-badge">Жиі таңдайды</p>
+            <div class="plan-head">
+              <h3 class="plan-name">Тұрақты</h3>
+              <p class="plan-for">Апта сайын тапсырыс беретін кафелерге</p>
+            </div>
+            <p class="plan-price"><span class="amount">Тегін</span><span class="unit"><span class="nowrap">50&nbsp;000&nbsp;₸-ден</span> асатын тапсырысқа</span></p>
+            <ul class="plan-features">
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Апталық кесте бойынша жеткізу</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Уақыт аралығы&nbsp;— 1&nbsp;сағат</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Жеке менеджер</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>7&nbsp;күнге дейін кейінге қалдырылған төлем</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>ЭШФ және салыстыру актісі</span></li>
+            </ul>
+            <a class="btn btn-primary" href="#contacts" data-service="Тұрақты жеткізу (кесте бойынша)">Таңдау</a>
+          </article>
+
+          <article class="plan">
+            <div class="plan-head">
+              <h3 class="plan-name">Шұғыл</h3>
+              <p class="plan-for">Бірдеңе таусылып қалғанда</p>
+            </div>
+            <p class="plan-price"><span class="amount">4&nbsp;000&nbsp;₸</span><span class="unit">/ жеткізу</span></p>
+            <ul class="plan-features">
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Қала бойынша 2&nbsp;сағатта жеткізу</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Күн сайын <span class="nowrap">08:00–20:00</span></span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Ең аз тапсырыс сомасы жоқ</span></li>
+              <li><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span>Қоймаға дейін көтеріп беру</span></li>
+            </ul>
+            <a class="btn btn-ghost" href="#contacts" data-service="Шұғыл жеткізу">Таңдау</a>
+          </article>
+        </div>
+
+        <p class="plans-note">Қала сыртына жеткізу мен ірі көлемді тапсырыстар&nbsp;— жеке келісім бойынша.
+          <a href="https://wa.me/77000000000" data-wa-text="Сәлеметсіз бе! Прайс-парақты жібере аласыз ба?" target="_blank" rel="noopener">Прайс-парақты WhatsApp арқылы сұрау</a></p>
+      </div>
+    </section>
+
+    <!-- ============ БІЗ ТУРАЛЫ ============ -->
+    <section class="section section-alt" id="about" aria-labelledby="about-title">
+      <div class="wrap about-grid">
+        <div class="about-main">
+          <p class="eyebrow">Біз туралы</p>
+          <h2 id="about-title">Кафеңіз уақытында ашылуы үшін жұмыс істейміз</h2>
+          <div class="prose">
+            <p>Mister&nbsp;— кафелерге, кофеханаларға және мейрамханаларға тауар жеткізу қызметі. Асхана мен бар үшін әр минуттың маңызы зор: сүт таусылса&nbsp;— кофе жоқ, нан кешіксе&nbsp;— таңғы ас жоқ.</p>
+            <p>Біздің міндетіміз қарапайым: сіз мәзірге, қонақтарға және командаңызға көңіл бөлесіз, ал тауардың уақытында келуін біз қадағалаймыз.</p>
+          </div>
+          <dl class="facts">
+            <div><dt>алғашқы рейс</dt><dd>06:00</dd></div>
+            <div><dt>жеткізу терезесі</dt><dd>1&nbsp;сағат</dd></div>
+            <div><dt>шұғыл жеткізу</dt><dd>2&nbsp;сағат</dd></div>
+            <div><dt>мұздатылған өнімдерге</dt><dd>−18&nbsp;°C</dd></div>
+          </dl>
+        </div>
+
+        <ul class="perks">
+          <li class="perk">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg>
+            <h3>Нақты уақыт</h3>
+            <p>Жеткізуді 1&nbsp;сағаттық аралыққа жоспарлаймыз. Кешігетін болсақ, алдын ала хабарлаймыз.</p>
+          </li>
+          <li class="perk">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check-circle"/></svg>
+            <h3>Сапаны тексеру</h3>
+            <p>Тиер алдында әр тауардың сапасы мен жарамдылық мерзімін тексереміз.</p>
+          </li>
+          <li class="perk">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-box"/></svg>
+            <h3>Қоймаға дейін</h3>
+            <p>Жүкті есік алдында қалдырмаймыз&nbsp;— қоймаңызға дейін көтеріп береміз.</p>
+          </li>
+          <li class="perk">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"/></svg>
+            <h3>Жеке менеджер</h3>
+            <p>Тапсырыс, ауыстыру және қайтару мәселелерін бір адаммен шешесіз.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ СҰРАҚ-ЖАУАП ============ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-grid">
+        <div class="faq-head">
+          <p class="eyebrow">Сұрақ-жауап</p>
+          <h2 id="faq-title">Жиі қойылатын сұрақтар</h2>
+          <p class="section-intro">Жауабын таппасаңыз, <span class="nowrap">WhatsApp-қа</span> жазыңыз&nbsp;— жұмыс уақытында 15&nbsp;минут ішінде жауап береміз.</p>
+          <a class="btn btn-ghost" href="https://wa.me/77000000000" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg><span class="nowrap">WhatsApp-қа</span> жазу</a>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" name="faq" open>
+            <summary>Тапсырысты қашанға дейін беру керек?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Ертеңгі таңғы жеткізу үшін&nbsp;— бүгін <span class="nowrap">22:00-ге</span> дейін. Шұғыл тапсырыстарды күн сайын <span class="nowrap">08:00–20:00</span>&nbsp;аралығында қабылдаймыз.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>Ең аз тапсырыс сомасы қанша?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Бір реттік жеткізуде&nbsp;— 15&nbsp;000&nbsp;₸. Тұрақты клиенттерге <span class="nowrap">50&nbsp;000&nbsp;₸-ден</span> асатын тапсырысты тегін жеткіземіз. Шұғыл жеткізуде ең аз сома жоқ.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>Тауар сапасыз болып шықса ше?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Тауарды қабылдау кезінде тексеріңіз. Ақауы бар немесе жарамдылық мерзімі өткен тауарды ауыстырып береміз не ақшасын қайтарамыз.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>Төлемді қалай жасаймыз?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Kaspi QR, банк картасы, қолма-қол ақша немесе заңды тұлғаларға шот арқылы. Тұрақты клиенттерге&nbsp;— 7&nbsp;күнге дейін кейінге қалдырылған төлем.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>Қай аудандарға жеткізесіздер?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Қаланың барлық ауданына жеткіземіз. Қала сыртына жеткізу шарттарын менеджермен нақтылаңыз.</p></div>
+          </details>
+          <details class="faq-item" name="faq">
+            <summary>Тапсырысты өзгертуге бола ма?<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"/></svg></summary>
+            <div class="faq-answer"><p>Иә. Тауар тізімін, көлемін немесе уақыт аралығын жеткізуден бір күн бұрын, <span class="nowrap">22:00-ге</span> дейін өзгертуге болады.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ БАЙЛАНЫС ============ -->
+    <section class="section band" id="contacts" aria-labelledby="contacts-title">
+      <div class="wrap contact-grid">
+        <div class="contact-info">
+          <p class="eyebrow">Байланыс</p>
+          <h2 id="contacts-title">Өтінім қалдырыңыз&nbsp;— 15&nbsp;минут ішінде хабарласамыз</h2>
+          <p class="section-intro">Прайс-парақ пен кеңес&nbsp;— тегін. Алғашқы жеткізуді ертеңгі таңға-ақ жоспарлай аламыз.</p>
+
+          <!-- Байланыс деректерін осы жерде өзгертіңіз -->
+          <ul class="contact-list">
+            <li>
+              <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg></span>
+              <div><span class="contact-label">Телефон</span><a class="contact-value" href="tel:+77000000000">+7 700 000 00 00</a></div>
+            </li>
+            <li>
+              <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg></span>
+              <div><span class="contact-label">WhatsApp</span><a class="contact-value" href="https://wa.me/77000000000" target="_blank" rel="noopener">+7 700 000 00 00</a></div>
+            </li>
+            <li>
+              <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mail"/></svg></span>
+              <div><span class="contact-label">Электрондық пошта</span><a class="contact-value" href="mailto:info@example.com">info@example.com</a></div>
+            </li>
+            <li>
+              <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pin"/></svg></span>
+              <div>
+                <span class="contact-label">Қойма</span>
+                <span class="contact-value">Алматы қ., Үлгі көшесі, 1</span>
+                <a class="contact-sub" href="https://2gis.kz/almaty" target="_blank" rel="noopener">2GIS картасынан ашу</a>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Жұмыс уақыты: data-days (0 — жексенбі, 1 — дүйсенбі … 6 — сенбі), data-open, data-close -->
+          <div class="hours" data-hours>
+            <div class="hours-head">
+              <span class="contact-label">Тапсырыс қабылдау</span>
+              <p class="status-pill" data-open-status>
+                <span class="status-dot" aria-hidden="true"></span>
+                <span data-open-text>Қазақстан уақытымен</span>
+              </p>
+            </div>
+            <ul class="hours-list">
+              <li data-days="1,2,3,4,5,6" data-open="08:00" data-close="22:00"><span>Дүйсенбі – сенбі</span><span><span class="nowrap">08:00–22:00</span></span></li>
+              <li data-days="0" data-open="10:00" data-close="20:00"><span>Жексенбі</span><span><span class="nowrap">10:00–20:00</span></span></li>
+            </ul>
+            <p class="hours-note">Жеткізу&nbsp;— күн сайын <span class="nowrap">06:00–20:00</span>.</p>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <!-- data-whatsapp: өтінім жіберілетін WhatsApp нөмірі (тек сандар) -->
+          <form class="order-form" id="order-form" data-whatsapp="77000000000" novalidate>
+            <h3 class="form-title">Өтінім жіберу</h3>
+            <p class="form-sub">Форманы толтырыңыз&nbsp;— хабарлама <span class="nowrap">WhatsApp-та</span> дайын болады.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-name">Атыңыз</label>
+                <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Мысалы, Айгерім" required aria-describedby="f-name-error">
+                <p class="field-error" id="f-name-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-cafe">Кафе атауы <span class="optional">(міндетті емес)</span></label>
+                <input id="f-cafe" name="cafe" type="text" autocomplete="organization" placeholder="Кафе немесе мейрамхана">
+              </div>
+              <div class="field">
+                <label for="f-phone">Телефон</label>
+                <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (700) 000-00-00" required aria-describedby="f-phone-error">
+                <p class="field-error" id="f-phone-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-service">Не қызықтырады?</label>
+                <select id="f-service" name="service">
+                  <option value="">Таңдаңыз</option>
+                  <option>Бір реттік жеткізу</option>
+                  <option>Тұрақты жеткізу (кесте бойынша)</option>
+                  <option>Шұғыл жеткізу</option>
+                  <option>Сатып алып жеткізу</option>
+                  <option>Прайс-парақ алу</option>
+                  <option>Басқа сұрақ</option>
+                </select>
+              </div>
+              <div class="field field-wide">
+                <label for="f-address">Жеткізу мекенжайы <span class="optional">(міндетті емес)</span></label>
+                <input id="f-address" name="address" type="text" autocomplete="street-address" placeholder="Көше, үй, аудан">
+              </div>
+              <div class="field field-wide">
+                <label for="f-message">Тапсырыс немесе сұрақ <span class="optional">(міндетті емес)</span></label>
+                <textarea id="f-message" name="message" rows="4" placeholder="Мысалы: сүт 3,2% — 10 л, кофе дәні — 3 кг, стақан 300 мл — 500 дана"></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary btn-lg btn-block" type="submit"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"/></svg>WhatsApp арқылы жіберу</button>
+              <p class="form-note">Деректеріңіз сайтта сақталмайды. Батырманы басқанда WhatsApp дайын хабарламамен ашылады.</p>
+            </div>
+          </form>
+
+          <div class="form-done" id="form-done" tabindex="-1" hidden>
+            <span class="done-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></span>
+            <h3 class="form-title">Хабарламаңыз дайын</h3>
+            <p class="form-sub">WhatsApp жаңа бетте ашылады&nbsp;— онда «Жіберу» батырмасын басыңыз. Ашылмаса, төмендегі батырманы қолданыңыз.</p>
+            <pre class="message-preview" id="message-preview"></pre>
+            <div class="done-actions">
+              <a class="btn btn-primary" id="wa-link" href="https://wa.me/77000000000" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg>WhatsApp-ты ашу</a>
+              <button class="btn btn-ghost" type="button" id="copy-btn"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg>Мәтінді көшіру</button>
+            </div>
+            <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+            <button class="link-btn" type="button" id="edit-btn">Өтінімді өзгерту</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ ТӨМЕНГІ БӨЛІМ ============ -->
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#home" aria-label="Mister — басты бет">
+          <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+            <rect class="brand-mark-bg" width="36" height="36" rx="9"/>
+            <path class="brand-mark-m" d="M10 25V12l8 8 8-8v13"/>
+            <circle class="brand-mark-dot" cx="10" cy="25" r="2.6"/>
+            <circle class="brand-mark-dot" cx="26" cy="25" r="2.6"/>
+          </svg>
+          <span class="brand-text">
+            <span class="brand-name">Mister</span>
+            <span class="brand-tag">кафелерге жеткізу</span>
+          </span>
+        </a>
+        <p>Кафелерге, кофеханаларға және мейрамханаларға тауар жеткізу. Кешке тапсырыс&nbsp;— таңертең кафеңізде.</p>
+      </div>
+      <nav class="footer-col" aria-label="Төменгі мәзір">
+        <p class="footer-title">Бөлімдер</p>
+        <ul class="footer-links">
+          <li><a href="#home">Басты бет</a></li>
+          <li><a href="#services">Қызметтер</a></li>
+          <li><a href="#prices">Бағалар</a></li>
+          <li><a href="#about">Біз туралы</a></li>
+          <li><a href="#contacts">Байланыс</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <p class="footer-title">Байланыс</p>
+        <ul class="footer-links">
+          <li><a href="tel:+77000000000">+7 700 000 00 00</a></li>
+          <li><a href="mailto:info@example.com">info@example.com</a></li>
+          <li>Алматы қ., Үлгі көшесі, 1</li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="footer-bottom">
+        <p>© <span data-year>2026</span> «Mister» ЖШС · БСН 000000000000</p>
+        <p>Барлық құқықтар қорғалған.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/77000000000" target="_blank" rel="noopener" aria-label="WhatsApp-қа жазу">
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg><span>WhatsApp</span>
+  </a>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
