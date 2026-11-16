@@ -1767,6 +1767,34 @@ a.contact-value:hover {
   height: 26px;
 }
 
+.done-icon--warn {
+  background: var(--off-soft);
+  color: var(--off);
+}
+
+.order-id {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.btn[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+/* Спамнан қорғайтын жасырын өріс */
+.hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .message-preview {
   width: 100%;
   max-height: 260px;

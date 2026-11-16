@@ -127,35 +127,50 @@
     link.setAttribute('href', base + '?text=' + encodeURIComponent(link.getAttribute('data-wa-text')));
   });
 
-  /* ---------- Өтінім формасы ---------- */
+  /* ---------- Тапсырыс формасы ----------
+     Тапсырыс FormSubmit арқылы электрондық поштаға автоматты түрде жіберіледі (форманың data-endpoint атрибуты).
+     Жіберу мүмкін болмаса, клиентке тапсырысты WhatsApp арқылы жіберу ұсынылады. */
   var form = document.getElementById('order-form');
-  var done = document.getElementById('form-done');
+  var donePanel = document.getElementById('form-done');
+  var failedPanel = document.getElementById('form-failed');
   var fName = document.getElementById('f-name');
   var fCafe = document.getElementById('f-cafe');
   var fPhone = document.getElementById('f-phone');
   var fService = document.getElementById('f-service');
   var fAddress = document.getElementById('f-address');
   var fMessage = document.getElementById('f-message');
-  var preview = document.getElementById('message-preview');
+  var fHoney = document.getElementById('f-website');
+  var submitBtn = document.getElementById('submit-btn');
+  var orderIdEl = document.getElementById('order-id');
+  var donePreview = document.getElementById('message-preview');
+  var failedPreview = document.getElementById('failed-preview');
+  var waFollowup = document.getElementById('wa-followup');
   var waLink = document.getElementById('wa-link');
   var copyBtn = document.getElementById('copy-btn');
   var copyStatus = document.getElementById('copy-status');
-  var editBtn = document.getElementById('edit-btn');
+  var newOrderBtn = document.getElementById('new-order-btn');
+  var retryBtn = document.getElementById('retry-btn');
 
-  function showForm() {
-    if (!form || !done) return;
-    done.hidden = true;
-    form.hidden = false;
+  // Форманы, «қабылданды» немесе «жіберілмеді» панелін көрсету
+  function showPanel(panel) {
+    if (!form || !panel) return;
+    [form, donePanel, failedPanel].forEach(function (el) {
+      if (el) el.hidden = el !== panel;
+    });
+    if (panel !== form) {
+      panel.focus({ preventScroll: true });
+      (panel.closest('.form-card') || panel).scrollIntoView({ block: 'start' });
+    }
   }
 
-  // Тариф батырмасы басылса — формадағы қызметті алдын ала таңдаймыз
+  // Баға батырмасы басылса — формадағы қызметті алдын ала таңдаймыз
   document.addEventListener('click', function (event) {
     var trigger = event.target.closest('[data-service]');
     if (!trigger || !fService) return;
     var value = trigger.getAttribute('data-service');
     var hasOption = Array.prototype.some.call(fService.options, function (option) { return option.value === value; });
     if (hasOption) fService.value = value;
-    showForm();
+    showPanel(form);
   });
 
   // Телефон нөмірі: +7 (7XX) XXX-XX-XX
@@ -204,9 +219,72 @@
   }
   if (fName) fName.addEventListener('input', function () { clearError(fName); });
 
+  function pad(n) {
+    return (n < 10 ? '0' : '') + n;
+  }
+
+  // Тапсырыс нөмірі: M-ЖЖААКК-XXXX (Қазақстан уақытымен)
+  function makeOrderId(now) {
+    var date = String(now.getUTCFullYear()).slice(2) + pad(now.getUTCMonth() + 1) + pad(now.getUTCDate());
+    return 'M-' + date + '-' + Math.floor(1000 + Math.random() * 9000);
+  }
+
+  function whatsappUrl(text) {
+    var number = (form.getAttribute('data-whatsapp') || '').replace(/\D/g, '');
+    return 'https://wa.me/' + number + '?text=' + encodeURIComponent(text);
+  }
+
+  function setSending(sending) {
+    if (!submitBtn) return;
+    submitBtn.disabled = sending;
+    submitBtn.setAttribute('aria-busy', String(sending));
+    var label = submitBtn.querySelector('.btn-label');
+    if (label) label.textContent = sending ? 'Жіберілуде…' : 'Тапсырыс беру';
+  }
+
+  // Тапсырысты поштаға жіберу (15 секундтан кейін тоқтатылады)
+  function sendOrder(fields) {
+    var endpoint = form.getAttribute('data-endpoint');
+    if (!endpoint || !window.fetch) return Promise.reject(new Error('Жіберу мекенжайы жоқ'));
+    var controller = window.AbortController ? new AbortController() : null;
+    var timer = controller ? window.setTimeout(function () { controller.abort(); }, 15000) : null;
+    return fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(fields),
+      signal: controller ? controller.signal : undefined
+    }).then(function (response) {
+      return response.json().catch(function () { return {}; }).then(function (data) {
+        if (timer) window.clearTimeout(timer);
+        if (!response.ok || !(data.success === true || data.success === 'true')) {
+          throw new Error(data.message || 'HTTP ' + response.status);
+        }
+        return data;
+      });
+    }, function (error) {
+      if (timer) window.clearTimeout(timer);
+      throw error;
+    });
+  }
+
+  function showSuccess(orderId, summary) {
+    orderIdEl.textContent = orderId;
+    donePreview.textContent = summary;
+    waFollowup.setAttribute('href', whatsappUrl('Сәлеметсіз бе! Менің тапсырысымның нөмірі: ' + orderId));
+    showPanel(donePanel);
+  }
+
+  function showFailure(text) {
+    failedPreview.textContent = text;
+    waLink.setAttribute('href', whatsappUrl(text));
+    copyStatus.textContent = '';
+    showPanel(failedPanel);
+  }
+
   if (form) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      if (submitBtn && submitBtn.disabled) return;
 
       var name = fName.value.trim();
       var national = nationalDigits(fPhone.value);
@@ -229,49 +307,74 @@
         return;
       }
 
-      var lines = ['Сәлеметсіз бе! Сайттан өтінім.', 'Аты: ' + name];
-      if (fCafe.value.trim()) lines.push('Кафе: ' + fCafe.value.trim());
-      lines.push('Телефон: ' + formatPhone(national));
-      if (fService.value) lines.push('Қызмет: ' + fService.value);
-      if (fAddress.value.trim()) lines.push('Мекенжай: ' + fAddress.value.trim());
-      if (fMessage.value.trim()) lines.push('Тапсырыс: ' + fMessage.value.trim());
+      var now = new Date(Date.now() + TZ_OFFSET_HOURS * 3600000);
+      var orderId = makeOrderId(now);
+      var time = pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ', ' +
+        pad(now.getUTCDate()) + '.' + pad(now.getUTCMonth() + 1) + '.' + now.getUTCFullYear();
+      var phone = formatPhone(national);
+      var cafe = fCafe.value.trim();
+      var service = fService.value;
+      var address = fAddress.value.trim();
+      var message = fMessage.value.trim();
 
-      var text = lines.join('\n');
-      var number = (form.getAttribute('data-whatsapp') || '').replace(/\D/g, '');
-      var url = 'https://wa.me/' + number + '?text=' + encodeURIComponent(text);
+      var lines = ['Тапсырыс ' + orderId, 'Аты: ' + name];
+      if (cafe) lines.push('Кафе: ' + cafe);
+      lines.push('Телефон: ' + phone);
+      if (service) lines.push('Қызмет: ' + service);
+      if (address) lines.push('Мекенжай: ' + address);
+      if (message) lines.push('Тапсырыс: ' + message);
+      var summary = lines.join('\n');
 
-      preview.textContent = text;
-      waLink.setAttribute('href', url);
-      copyStatus.textContent = '';
-      form.hidden = true;
-      done.hidden = false;
-      done.focus({ preventScroll: true });
-      (done.closest('.form-card') || done).scrollIntoView({ block: 'start' });
+      // Жасырын өріс толтырылса — бұл бот, ештеңе жібермейміз
+      if (fHoney && fHoney.value) {
+        showSuccess(orderId, summary);
+        return;
+      }
 
-      // WhatsApp-ты бірден ашуға тырысамыз; браузер бұғаттаса, «WhatsApp-ты ашу» батырмасы қалады
-      var opener = document.createElement('a');
-      opener.href = url;
-      opener.target = '_blank';
-      opener.rel = 'noopener';
-      document.body.appendChild(opener);
-      opener.click();
-      opener.remove();
+      setSending(true);
+      sendOrder({
+        _subject: 'Жаңа тапсырыс ' + orderId + ' — Mister сайты',
+        _template: 'table',
+        _captcha: 'false',
+        'Тапсырыс нөмірі': orderId,
+        'Уақыты': time,
+        'Аты': name,
+        'Кафе': cafe || '—',
+        'Телефон': phone,
+        'Қызмет': service || '—',
+        'Мекенжай': address || '—',
+        'Тапсырыс': message || '—'
+      }).then(function () {
+        setSending(false);
+        form.reset();
+        showSuccess(orderId, summary);
+      }, function () {
+        setSending(false);
+        showFailure('Сәлеметсіз бе! Сайттан тапсырыс.\n' + summary);
+      });
     });
   }
 
-  if (editBtn) {
-    editBtn.addEventListener('click', function () {
-      showForm();
+  if (newOrderBtn) {
+    newOrderBtn.addEventListener('click', function () {
+      showPanel(form);
       fName.focus();
+    });
+  }
+
+  if (retryBtn) {
+    retryBtn.addEventListener('click', function () {
+      showPanel(form);
+      if (submitBtn) submitBtn.focus();
     });
   }
 
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
-      var text = preview.textContent;
+      var text = failedPreview.textContent;
       function selectText() {
         var range = document.createRange();
-        range.selectNodeContents(preview);
+        range.selectNodeContents(failedPreview);
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
