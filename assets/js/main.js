@@ -229,6 +229,19 @@
     return 'M-' + date + '-' + Math.floor(1000 + Math.random() * 9000);
   }
 
+  // Тапсырыс уақыты: «now» Қазақстан уақытына жылжытылған, сондықтан UTC бойынша пішімдейміз
+  function formatOrderTime(now) {
+    try {
+      return new Intl.DateTimeFormat('kk-KZ', {
+        timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+      }).format(now);
+    } catch (e) {
+      return pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ', ' +
+        pad(now.getUTCDate()) + '.' + pad(now.getUTCMonth() + 1) + '.' + now.getUTCFullYear();
+    }
+  }
+
   function whatsappUrl(text) {
     var number = (form.getAttribute('data-whatsapp') || '').replace(/\D/g, '');
     return 'https://wa.me/' + number + '?text=' + encodeURIComponent(text);
@@ -309,8 +322,7 @@
 
       var now = new Date(Date.now() + TZ_OFFSET_HOURS * 3600000);
       var orderId = makeOrderId(now);
-      var time = pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ', ' +
-        pad(now.getUTCDate()) + '.' + pad(now.getUTCMonth() + 1) + '.' + now.getUTCFullYear();
+      var time = formatOrderTime(now);
       var phone = formatPhone(national);
       var cafe = fCafe.value.trim();
       var service = fService.value;
@@ -354,6 +366,18 @@
       });
     });
   }
+
+  // Толтырылған, бірақ жіберілмеген тапсырыс болса — беттен шығар алдында ескертеміз
+  function hasUnsentOrder() {
+    if (!form) return false;
+    return Boolean(fName.value.trim() || nationalDigits(fPhone.value) || fCafe.value.trim() ||
+      fService.value || fAddress.value.trim() || fMessage.value.trim());
+  }
+  window.addEventListener('beforeunload', function (event) {
+    if (!hasUnsentOrder()) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
 
   if (newOrderBtn) {
     newOrderBtn.addEventListener('click', function () {
