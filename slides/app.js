@@ -88,7 +88,7 @@
   const EXAMPLE = {
     title: 'Жақсы презентацияның 6 ережесі', theme: 'aspan', lang: 'kk',
     slides: [
-      { layout: 'cover', kicker: 'Слайдшы · мысал', title: 'Жақсы презентацияның 6 ережесі', subtitle: 'Слайдты қалай қарапайым әрі түсінікті етуге болады' },
+      { layout: 'cover', kicker: 'Мысал', title: 'Жақсы презентацияның 6 ережесі', subtitle: 'Слайдты қалай қарапайым әрі түсінікті етуге болады' },
       { layout: 'bullets', title: 'Бір слайд — бір ой', bullets: ['Әр слайдта бір ғана басты ой болсын', 'Тақырып осы ойды толық жеткізсін', 'Қалғанын ауызша түсіндіріңіз'], notes: 'Слайдқа тек басты ойды жазып, түсіндірмесін өзіңіз айтыңыз.' },
       { layout: 'two', title: 'Мәтін аз, көрнекілік көп', left: { heading: 'Мәтін', bullets: ['Бес тармақтан аспасын', 'Әр тармақ — бір жол'] }, right: { heading: 'Көрнекілік', bullets: ['Сурет, сызба, сан', 'Ұзын сөйлемнің орнына кілт сөз'] } },
       { layout: 'stat', title: 'Түстерді шектеңіз', value: '3', label: 'негізгі түстен артық қолданбаңыз' },
@@ -636,15 +636,25 @@
     langSel.addEventListener('change', () => { state.lang = langSel.value; savePrefs(); });
 
     const themesBox = h('div', { class: 'themes', role: 'group', 'aria-label': 'Дизайн' });
+    // Оң жақтағы алдыңғы слайд: жазылған тақырып таңдалған дизайнда бірден көрінеді
+    const live = h('div', { class: 'card c3 live' });
+    const drawLive = () => {
+      const title = state.topic.trim() || 'Сіздің тақырыбыңыз';
+      const sc = h('div', { class: 'scaler' }, renderSlide(normSlide({ layout: 'cover', title }), 0, { theme: state.theme }, false));
+      observeScale(sc);
+      live.replaceChildren(sc);
+      pruneObserved();
+    };
     const pickTheme = (id) => {
       state.theme = id;
       savePrefs();
       themesBox.querySelectorAll('.theme-card').forEach((c) => c.setAttribute('aria-pressed', c.dataset.themeId === id ? 'true' : 'false'));
+      drawLive();
     };
     const drawThemes = () => {
       const title = state.topic.trim() || 'Сіздің тақырыбыңыз';
       themesBox.replaceChildren(...THEMES.map((th) => themeCard(th, title, th.id === state.theme, pickTheme)));
-      pruneObserved();
+      drawLive();
     };
     drawThemes();
     const redrawThemes = debounce(drawThemes, 350);
@@ -673,17 +683,17 @@
       return h('div', { class: `card ${cls}` }, sc);
     };
     const showcase = h('section', { class: 'showcase', 'aria-label': 'Мысал презентация' },
-      h('div', { class: 'fan', 'aria-hidden': 'true' }, fanCard('c1', 2, 'tun'), fanCard('c2', 4, 'anar'), fanCard('c3', 0, 'aspan')),
+      h('div', { class: 'fan', 'aria-hidden': 'true' }, fanCard('c1', 2, 'tun'), fanCard('c2', 4, 'anar'), live),
       h('div', { class: 'showcase-foot' },
-        h('p', null, 'Мысал: ', h('b', { text: '«Жақсы презентацияның 6 ережесі»' }), ', 8 слайд'),
-        btn('slides', 'Мысалды ашу', () => openDeck(exampleDeck()), { cls: 'btn-ghost' })));
+        h('p', { text: 'Алдыңғы слайд — сіздің тақырыбыңыз таңдалған дизайнда. Жазған сайын жаңарады.' }),
+        btn('slides', 'Мысал презентацияны ашу', () => openDeck(exampleDeck()), { cls: 'btn-ghost' })));
 
     const hero = h('section', { class: 'wrap hero' },
       h('div', { class: 'hero-copy' },
-        h('h1', { class: 'hero-title', html: 'Тақырыпты жазыңыз, қалғанын <em>Слайдшы</em> жасайды' }),
-        h('p', { class: 'lead', text: 'Тақырып пен слайд санын көрсетіп, дизайн таңдаңыз. Дайын слайдтарды өңдеп, бірден көрсетуге немесе PowerPoint-қа жүктеуге болады.' }),
-        form, chips),
-      showcase);
+        h('h1', { class: 'hero-title', text: 'Тақырыпты жазыңыз, қалғанын Слайдшы жасайды' }),
+        h('p', { class: 'lead', text: 'Тақырып пен слайд санын көрсетіп, дизайн таңдаңыз. Дайын слайдтарды өңдеп, бірден көрсетуге немесе PowerPoint-қа жүктеуге болады.' })),
+      showcase,
+      h('div', { class: 'hero-work' }, form, chips));
 
     const projects = renderProjects();
     const foot = h('footer', { class: 'wrap site-foot' },
