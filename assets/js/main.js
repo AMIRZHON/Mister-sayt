@@ -444,7 +444,7 @@
     var text;
 
     if (isOpen) {
-      text = 'Қазір ашықпыз · ' + today.open + '–' + today.close;
+      text = 'Қазір ашықпыз, ' + today.open + '–' + today.close;
     } else {
       var next = null;
       if (today && today.open && minutes < today.from) {
@@ -458,7 +458,7 @@
           }
         }
       }
-      text = next ? 'Қазір жабықпыз · ашылуы: ' + next : 'Қазір жабықпыз';
+      text = next ? 'Қазір жабықпыз, ашылуы: ' + next : 'Қазір жабықпыз';
     }
 
     document.querySelectorAll('[data-open-status]').forEach(function (pill) {
