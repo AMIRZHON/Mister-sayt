@@ -287,6 +287,7 @@ select option { background-color: var(--panel); color: var(--ink); }
   border: 1px solid transparent; border-radius: 8px; background: transparent;
   font-size: 16px; font-weight: 600;
 }
+.topbar .btn { flex: none; }
 .title-input:hover { border-color: var(--line); }
 .title-input:focus { outline: none; border-color: var(--accent); background: var(--panel-2); }
 
@@ -325,7 +326,8 @@ select option { background-color: var(--panel); color: var(--ink); }
   padding-right: max(20px, env(safe-area-inset-right, 0px));
   background: var(--stage-bg);
 }
-.main > * { width: 100%; max-width: min(1120px, calc((100vh - 250px) * 16 / 9)); margin-inline: auto; }
+/* flex: none — слайд қорабы биіктігі жетпегенде сығылып, кесіліп қалмасын */
+.main > * { flex: none; width: 100%; max-width: min(1120px, calc((100vh - 300px) * 16 / 9)); margin-inline: auto; }
 .main > .gen-status, .main > .toolbar, .main > .notes { min-width: min(100%, 560px); }
 
 .gen-status {
