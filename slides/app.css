@@ -75,6 +75,8 @@ html {
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  touch-action: manipulation;
   background: var(--bg);
 }
 
@@ -168,7 +170,9 @@ img { max-width: 100%; }
   display: grid; gap: 14px; padding: 16px;
   border: 1px solid var(--line); border-radius: 18px;
   background: var(--panel); box-shadow: var(--shadow-1);
+  transition: border-color .15s, box-shadow .15s;
 }
+.prompt-card:focus-within { border-color: var(--accent); box-shadow: var(--shadow-1), 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
 .prompt-card textarea {
   width: 100%; min-height: 92px; resize: vertical;
   padding: 6px 4px; border: 0; background: transparent;
@@ -189,8 +193,9 @@ img { max-width: 100%; }
   padding: 6px 6px 6px 12px; border: 1px solid var(--line); border-radius: 10px;
   background: var(--panel-2); font-size: 14px; color: var(--muted);
 }
+select option { background-color: var(--panel); color: var(--ink); }
 .opt select {
-  padding: 4px 6px; border: 0; border-radius: 6px; background: transparent;
+  padding: 4px 6px; border: 0; border-radius: 6px; background-color: var(--panel-2);
   font-weight: 600; color: var(--ink); cursor: pointer;
 }
 
@@ -343,7 +348,7 @@ img { max-width: 100%; }
   padding: 0 6px 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel);
   font-size: 14px; color: var(--muted);
 }
-.layout-pick select { padding: 6px 4px; border: 0; background: transparent; font-weight: 600; color: var(--ink); cursor: pointer; }
+.layout-pick select { padding: 6px 4px; border: 0; background-color: var(--panel); font-weight: 600; color: var(--ink); cursor: pointer; }
 
 .stage { border-radius: 10px; box-shadow: var(--shadow-2); background: var(--panel); }
 .stage-empty {
@@ -362,7 +367,7 @@ img { max-width: 100%; }
 /* ---------- Қалқымалы терезелер мен хабарлар ---------- */
 .pop {
   position: fixed; z-index: 50; width: min(340px, calc(100vw - 16px));
-  max-height: min(70vh, 560px); overflow-y: auto; padding: 12px;
+  max-height: min(70vh, 560px); overflow-y: auto; overscroll-behavior: contain; padding: 12px;
   border: 1px solid var(--line); border-radius: 14px; background: var(--panel); box-shadow: var(--shadow-2);
 }
 .pop.wide { width: min(520px, calc(100vw - 16px)); }
@@ -399,6 +404,7 @@ img { max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
   background: var(--present-bg); color: var(--present-ink); outline: none;
   touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 .pstage { position: relative; width: calc(1280px * var(--k)); height: calc(720px * var(--k)); }
 .pstage > .slide { position: absolute; left: 0; top: 0; transform: scale(var(--k)); transform-origin: 0 0; }
