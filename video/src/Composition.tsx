@@ -1,4 +1,5 @@
-import { AbsoluteFill, Easing, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { Audio } from "@remotion/media";
+import { AbsoluteFill, Easing, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 
 const NAVY = "#142036";
 const AMBER = "#f3a712";
@@ -137,10 +138,52 @@ const Cta: React.FC = () => {
   );
 };
 
+const cues = [
+  { from: 0.5, to: 3.9, text: "Кешке тапсырыс — таңертең кафеңізде" },
+  { from: 4.2, to: 6.4, text: "Төрт қадам: тапсырыстан қоймаңызға дейін" },
+  { from: 6.6, to: 8.9, text: "Жеткізу құны алдын ала белгілі" },
+  { from: 9.2, to: 12.9, text: "Өтінім қалдырыңыз — 15 минутта хабарласамыз" },
+];
+
+const Subtitles: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const cue = cues.find((c) => frame >= c.from * fps && frame < c.to * fps);
+  if (!cue) return null;
+  const local = frame - cue.from * fps;
+  const left = cue.to * fps - frame;
+  const opacity = Math.min(
+    interpolate(local, [0, 6], [0, 1], { extrapolateRight: "clamp" }),
+    interpolate(left, [0, 6], [0, 1], { extrapolateRight: "clamp" }),
+  );
+  return (
+    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: 220 }}>
+      <div
+        style={{
+          opacity,
+          maxWidth: 920,
+          background: "rgba(0,0,0,0.62)",
+          color: "#fff",
+          fontFamily: FONT,
+          fontSize: 50,
+          fontWeight: 700,
+          lineHeight: 1.25,
+          textAlign: "center",
+          padding: "20px 36px",
+          borderRadius: 24,
+        }}
+      >
+        {cue.text}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 export const MyComposition: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
     <AbsoluteFill>
+      <Audio src={staticFile("music.wav")} volume={0.6} />
       <Sequence name="Hook" from={0} durationInFrames={4 * fps}>
         <Hook />
       </Sequence>
@@ -150,6 +193,7 @@ export const MyComposition: React.FC = () => {
       <Sequence name="CTA" from={9 * fps} durationInFrames={4 * fps}>
         <Cta />
       </Sequence>
+      <Subtitles />
     </AbsoluteFill>
   );
 };
